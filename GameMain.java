@@ -83,6 +83,7 @@ public class GameMain extends JPanel implements MouseListener{
 				//create a main window to contain the panel
 				JFrame frame = new JFrame("Tic Tac Toe");
 				
+				
 				frame.setSize(800,800);
 				
 				frame.getContentPane();
@@ -93,14 +94,20 @@ public class GameMain extends JPanel implements MouseListener{
 				frame.getContentPane().setBackground(new Color(50,50,50));
 				frame.setLayout(new BorderLayout());
 				
+				JPanel panel = new JPanel();
+				panel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 5));	
+				
+				panel.setBackground(Color.WHITE);
+				
+				frame.add(panel, BorderLayout.CENTER);
+				
+				                                              
+				                                                          
+				
+				
+				
 			
 			
-				
-				//TODO: create the new GameMain panel and add it to the frame
-						
-				
-				
-				//TODO: set the default close operation of the frame to exit_on_close
 		            
 				
 				frame.pack();             
