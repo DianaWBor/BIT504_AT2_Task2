@@ -1,10 +1,17 @@
+package ticTacToe;
+
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
 
 
+
 public class GameMain extends JPanel implements MouseListener{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4988394812976214413L;
 	//Constants for game 
 	// number of ROWS by COLS cell constants 
 	public static final int ROWS = 3;     
@@ -26,9 +33,15 @@ public class GameMain extends JPanel implements MouseListener{
 	// the game board 
 	private Board board;
 	 	 
+	public enum GameState
+	{
+	    Playing, Draw, Cross_won, Nought_won
+	}
+	
 	//TODO: create the enumeration for the variable below (GameState currentState)
 	//HINT all of the states you require are shown in the code within GameMain
-	private GameState currentState; 
+	
+	GameState currentState; 
 	
 	// the current player
 	private Player currentPlayer; 
@@ -68,7 +81,20 @@ public class GameMain extends JPanel implements MouseListener{
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
 	         public void run() {
 				//create a main window to contain the panel
-				JFrame frame = new JFrame(TITLE);
+				JFrame frame = new JFrame("Tic Tac Toe");
+				
+				frame.setSize(800,800);
+				
+				frame.getContentPane();
+				
+						
+				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+				frame.setSize(8000,8000);
+				frame.getContentPane().setBackground(new Color(50,50,50));
+				frame.setLayout(new BorderLayout());
+				
+			
+			
 				
 				//TODO: create the new GameMain panel and add it to the frame
 						
@@ -80,9 +106,12 @@ public class GameMain extends JPanel implements MouseListener{
 				frame.pack();             
 				frame.setLocationRelativeTo(null);
 				frame.setVisible(true);
+				
 	         }
 		 });
 	}
+			 
+				
 	/** Custom painting codes on this JPanel */
 	public void paintComponent(Graphics g) {
 		//fill background and set colour to white
@@ -96,12 +125,14 @@ public class GameMain extends JPanel implements MouseListener{
 			statusBar.setForeground(Color.BLACK);          
 			if (currentPlayer == Player.Cross) {   
 			
-				//TODO: use the status bar to display the message "X"'s Turn
+				statusBar.setForeground(Color.RED);          
+				statusBar.setText("X's turn to play");
 
 				
 			} else {    
 				
-				//TODO: use the status bar to display the message "O"'s Turn
+				statusBar.setForeground(Color.RED);          
+				statusBar.setText("0's turn to play"); 
 
 				
 			}       
@@ -146,8 +177,10 @@ public class GameMain extends JPanel implements MouseListener{
 			} else 
 				if (board.isDraw ()) {
 					
+					
 				// TODO: set the currentstate to the draw gamestate
-
+					currentState = GameState.Draw;
+				
 			}
 			//otherwise no change to current state of playing
 		}
