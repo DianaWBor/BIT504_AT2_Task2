@@ -1,253 +1,550 @@
-package ticTacToe;
+import java.awt.EventQueue;
 
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
+import javax.swing.JFrame;
+import java.awt.BorderLayout;
+import javax.swing.JPanel;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.LineBorder;
+import java.awt.Color;
+import java.awt.GridLayout;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JButton;
+import java.awt.Font;
+import javax.swing.SwingConstants;
+import javax.swing.JTextField;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
+public class GameMain{
 
-
-
-public class GameMain extends JPanel implements MouseListener{
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 4988394812976214413L;
-	//Constants for game 
-	// number of ROWS by COLS cell constants 
-	public static final int ROWS = 3;     
-	public static final int COLS = 3;  
-	public static final String TITLE = "Tic Tac Toe";
-
-	//constants for dimensions used for drawing
-	//cell width and height
-	public static final int CELL_SIZE = 100;
-	//drawing canvas
-	public static final int CANVAS_WIDTH = CELL_SIZE * COLS;
-	public static final int CANVAS_HEIGHT = CELL_SIZE * ROWS;
-	//Noughts and Crosses are displayed inside a cell, with padding from border
-	public static final int CELL_PADDING = CELL_SIZE / 6;    
-	public static final int SYMBOL_SIZE = CELL_SIZE - CELL_PADDING * 2;    
-	public static final int SYMBOL_STROKE_WIDTH = 8;
-	
-	/*declare game object variables*/
-	// the game board 
-	private Board board;
-	 	 
-	public enum GameState
-	{
-	    Playing, Draw, Cross_won, Nought_won
-	}
-	
-	//TODO: create the enumeration for the variable below (GameState currentState)
-	//HINT all of the states you require are shown in the code within GameMain
-	
-	GameState currentState; 
-	
-	// the current player
-	private Player currentPlayer; 
-	// for displaying game status message
-	private JLabel statusBar;       
+	private JFrame frame;
+	private JTextField xCount;
+	private JTextField oCount;
+	private int xCount1=0;
+	private int oCount1=0;
+	private String startGame="X";
+	private int b1=10;
+	private int b2=10;
+	private int b3=10;
+	private int b4=10;
+	private int b5=10;
+	private int b6=10;
+	private int b7=10;
+	private int b8=10;
+	private int b9=10;
+	private int i=0;
 	
 
-	/** Constructor to setup the UI and game components on the panel */
-	public GameMain() {   
-		
-		// TODO: This JPanel fires a MouseEvent on MouseClicked so add required event listener to 'this'.          
-	    
-	    
-		// Setup the status bar (JLabel) to display status message       
-		statusBar = new JLabel("         ");       
-		statusBar.setFont(new Font(Font.DIALOG_INPUT, Font.BOLD, 14));       
-		statusBar.setBorder(BorderFactory.createEmptyBorder(2, 5, 4, 5));       
-		statusBar.setOpaque(true);       
-		statusBar.setBackground(Color.LIGHT_GRAY);  
-		
-		//layout of the panel is in border layout
-		setLayout(new BorderLayout());       
-		add(statusBar, BorderLayout.SOUTH);
-		// account for statusBar height in overall height
-		setPreferredSize(new Dimension(CANVAS_WIDTH, CANVAS_HEIGHT + 30));
-		
-		
-		// TODO: Create a new instance of the game "Board"class. HINT check the variables above for the correct name
-
-		
-		//TODO: call the method to initialise the game board
-
-	}
-	
+	//this is main entry into GUI
 	public static void main(String[] args) {
-		    // Run GUI code in Event Dispatch thread for thread safety.
-		javax.swing.SwingUtilities.invokeLater(new Runnable() {
-	         public void run() {
-				//create a main window to contain the panel
-				JFrame frame = new JFrame("Tic Tac Toe");
-				
-				
-				frame.setSize(800,800);
-				
-				frame.getContentPane();
-				
-						
-				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-				frame.setSize(8000,8000);
-				frame.getContentPane().setBackground(new Color(50,50,50));
-				frame.setLayout(new BorderLayout());
-				
-				JPanel panel = new JPanel();
-				panel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 5));	
-				
-				panel.setBackground(Color.WHITE);
-				
-				frame.add(panel, BorderLayout.CENTER);
-				
-				                                              
-				                                                          
-				
-				
-				
-			
-			
-		            
-				
-				frame.pack();             
-				frame.setLocationRelativeTo(null);
-				frame.setVisible(true);
-				
-	         }
-		 });
-	}
-			 
-				
-	/** Custom painting codes on this JPanel */
-	public void paintComponent(Graphics g) {
-		//fill background and set colour to white
-		super.paintComponent(g);
-		setBackground(Color.WHITE);
-		//ask the game board to paint itself
-		board.paint(g);
-		
-		//set status bar message
-		if (currentState == GameState.Playing) {          
-			statusBar.setForeground(Color.BLACK);          
-			if (currentPlayer == Player.Cross) {   
-			
-				statusBar.setForeground(Color.RED);          
-				statusBar.setText("X's turn to play");
-
-				
-			} else {    
-				
-				statusBar.setForeground(Color.RED);          
-				statusBar.setText("0's turn to play"); 
-
-				
-			}       
-			} else if (currentState == GameState.Draw) {          
-				statusBar.setForeground(Color.RED);          
-				statusBar.setText("It's a Draw! Click to play again.");       
-			} else if (currentState == GameState.Cross_won) {          
-				statusBar.setForeground(Color.RED);          
-				statusBar.setText("'X' Won! Click to play again.");       
-			} else if (currentState == GameState.Nought_won) {          
-				statusBar.setForeground(Color.RED);          
-				statusBar.setText("'O' Won! Click to play again.");       
-			}
-		}
-		
-	
-	  /** Initialise the game-board contents and the current status of GameState and Player) */
-		public void initGame() {
-			for (int row = 0; row < ROWS; ++row) {          
-				for (int col = 0; col < COLS; ++col) {  
-					// all cells empty
-					board.cells[row][col].content = Player.Empty;           
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					GameMain window = new GameMain();
+					window.frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
 			}
-			 currentState = GameState.Playing;
-			 currentPlayer = Player.Cross;
+		});
+	}
+
+	//this is the GUI app functionality and methods(equivalent to what was on the Board.java file
+	
+	public GameMain() {
+		initialize();
+	}
+
+	
+	private void winningGame()
+	{
+	//For Player X ..code below is equivalent to lines 
+		//44- 55 on the board.java file in  the experiment_1 branch 
+		if(b1==1 && b2==1 && b3==1)
+		{
+			JOptionPane.showMessageDialog(frame, "Player X Wins","Tic Tac Toe",JOptionPane.INFORMATION_MESSAGE);
+			xCount1++;
+			xCount.setText(String.valueOf(xCount1));
+		}
+		else if(b4==1 && b5==1 && b6==1)
+		{
+			JOptionPane.showMessageDialog(frame, "Player X Wins","Tic Tac Toe",JOptionPane.INFORMATION_MESSAGE);
+			xCount1++;
+			xCount.setText(String.valueOf(xCount1));
+		}
+		else if(b7==1 && b8==1 && b9==1)
+		{
+			JOptionPane.showMessageDialog(frame, "Player X Wins","Tic Tac Toe",JOptionPane.INFORMATION_MESSAGE);
+			xCount1++;
+			xCount.setText(String.valueOf(xCount1));
+		}
+		else if(b1==1 && b4==1 && b7==1)
+		{
+			JOptionPane.showMessageDialog(frame, "Player X Wins","Tic Tac Toe",JOptionPane.INFORMATION_MESSAGE);
+			xCount1++;
+			xCount.setText(String.valueOf(xCount1));
+		}
+		else if(b2==1 && b5==1 && b8==1)
+		{
+			JOptionPane.showMessageDialog(frame, "Player X Wins","Tic Tac Toe",JOptionPane.INFORMATION_MESSAGE);
+			xCount1++;
+			xCount.setText(String.valueOf(xCount1));
+		}
+		else if(b3==1 && b6==1 && b9==1)
+		{
+			JOptionPane.showMessageDialog(frame, "Player X Wins","Tic Tac Toe",JOptionPane.INFORMATION_MESSAGE);
+			xCount1++;
+			xCount.setText(String.valueOf(xCount1));
+		}
+		else if(b1==1 && b5==1 && b9==1)
+		{
+			JOptionPane.showMessageDialog(frame, "Player X Wins","Tic Tac Toe",JOptionPane.INFORMATION_MESSAGE);
+			xCount1++;
+			xCount.setText(String.valueOf(xCount1));
+		}
+		else if(b3==1 && b5==1 && b7==1)
+		{
+			JOptionPane.showMessageDialog(frame, "Player X Wins","Tic Tac Toe",JOptionPane.INFORMATION_MESSAGE);
+			xCount1++;
+			xCount.setText(String.valueOf(xCount1));
+		}
+		// For Player O 
+		
+		
+		else if(b1==0 && b2==0 && b3==0)
+		{
+			JOptionPane.showMessageDialog(frame, "Player O Wins","Tic Tac Toe",JOptionPane.INFORMATION_MESSAGE);
+			oCount1++;
+			oCount.setText(String.valueOf(oCount1));
+		}
+		else if(b4==0 && b5==0 && b6==0)
+		{
+			JOptionPane.showMessageDialog(frame, "Player O Wins","Tic Tac Toe",JOptionPane.INFORMATION_MESSAGE);
+			oCount1++;
+			oCount.setText(String.valueOf(oCount1));
+		}
+		else 	if(b7==0 && b8==0 && b9==0)
+		{
+			JOptionPane.showMessageDialog(frame, "Player O Wins","Tic Tac Toe",JOptionPane.INFORMATION_MESSAGE);
+			oCount1++;
+			oCount.setText(String.valueOf(oCount1));
+		}
+		else if(b1==0 && b4==0 && b7==0)
+		{
+			JOptionPane.showMessageDialog(frame, "Player O Wins","Tic Tac Toe",JOptionPane.INFORMATION_MESSAGE);
+			oCount1++;
+			oCount.setText(String.valueOf(oCount1));
+		}
+		else if(b2==0 && b5==0 && b8==0)
+		{
+			JOptionPane.showMessageDialog(frame, "Player O Wins","Tic Tac Toe",JOptionPane.INFORMATION_MESSAGE);
+			oCount1++;
+			oCount.setText(String.valueOf(oCount1));
+		}
+		else if(b3==0 && b6==0 && b9==0)
+		{
+			JOptionPane.showMessageDialog(frame, "Player O Wins","Tic Tac Toe",JOptionPane.INFORMATION_MESSAGE);
+			oCount1++;
+			oCount.setText(String.valueOf(oCount1));
+		}
+		else if(b1==0 && b5==0 && b9==0)
+		{
+			JOptionPane.showMessageDialog(frame, "Player O Wins","Tic Tac Toe",JOptionPane.INFORMATION_MESSAGE);
+			oCount1++;
+			oCount.setText(String.valueOf(oCount1));
+		}
+		else if(b3==0 && b5==0 && b7==0)
+		{
+			JOptionPane.showMessageDialog(frame, "Player O Wins","Tic Tac Toe",JOptionPane.INFORMATION_MESSAGE);
+			oCount1++;
+			oCount.setText(String.valueOf(oCount1));
+		}
+		else if(i==9)
+		{
+			JOptionPane.showMessageDialog(frame, "No One Wins","Tic Tac Toe",JOptionPane.INFORMATION_MESSAGE);
+			
 		}
 		
 		
-		/**After each turn check to see if the current player hasWon by putting their symbol in that position, 
-		 * If they have the GameState is set to won for that player
-		 * If no winner then isDraw is called to see if deadlock, if not GameState stays as PLAYING
-		 *   
-		 */
-		public void updateGame(Player thePlayer, int row, int col) {
-			//check for win after play
-			if(board.hasWon(thePlayer, row, col)) {
+		
+	}
+	
+	
+	private void choosePlayer()
+	{
+		if(startGame.equalsIgnoreCase("X"))
+		{
+			startGame="O";
+		}
+		else
+		{
+			startGame="X";
+		}
+	}
+	
+	
+	//JFrame formatting (almost exactly the same as lines 86 to 105 in GameMain.java file
+	// in the experiment_1 branch of repository)
+	private void initialize() {
+		frame = new JFrame("Tic Tac Toe");
+		frame.setBounds(100, 100, 600, 400);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.getContentPane().setLayout(new BorderLayout(0, 0));
+		
+		JPanel panel = new JPanel();
+		panel.setBorder(new LineBorder(new Color(0, 0, 0), 2));
+		frame.getContentPane().add(panel, BorderLayout.CENTER);
+		panel.setLayout(new GridLayout(3, 5, 2, 2));
+		
+		JPanel panel_1 = new JPanel();
+		panel_1.setBorder(new LineBorder(new Color(0, 0, 0), 2));
+		panel.add(panel_1);
+		panel_1.setLayout(new BorderLayout(0, 0));
+		//JPanel formatting is buttons rather than cells
+		JButton btn1 = new JButton("");
+		btn1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				btn1.setText(startGame);
+				if(startGame.equalsIgnoreCase("X"))
+				{
+					btn1.setForeground(Color.RED);
+					b1=1;
+					i++;
+				}
+				else 
+				{
+					btn1.setForeground(Color.BLUE);
+					b1=0;
+					i++;
+				}
+				choosePlayer();
+				winningGame();
+			}
+		});
+		btn1.setFont(new Font("Tahoma", Font.BOLD, 80));
+		panel_1.add(btn1, BorderLayout.CENTER);
+		
+		JPanel panel_2 = new JPanel();
+		panel_2.setBorder(new LineBorder(new Color(0, 0, 0), 2));
+		panel.add(panel_2);
+		panel_2.setLayout(new BorderLayout(0, 0));
+		
+		JButton btn2 = new JButton("");
+		btn2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				btn2.setText(startGame);
+				if(startGame.equalsIgnoreCase("X"))
+				{
+					btn2.setForeground(Color.RED);
+					b2=1;
+					i++;
+				}
+				else 
+				{
+					btn2.setForeground(Color.BLUE);
+					b2=0;
+					i++;
+				}
+				choosePlayer();
+				winningGame();
+			}
+		});
+		btn2.setFont(new Font("Tahoma", Font.BOLD, 80));
+		panel_2.add(btn2, BorderLayout.CENTER);
+		
+		JPanel panel_3 = new JPanel();
+		panel_3.setBorder(new LineBorder(new Color(0, 0, 0), 2));
+		panel.add(panel_3);
+		panel_3.setLayout(new BorderLayout(0, 0));
+		
+		JButton btn3 = new JButton("");
+		btn3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				btn3.setText(startGame);
+				if(startGame.equalsIgnoreCase("X"))
+				{
+					btn3.setForeground(Color.RED);
+					b3=1;
+					i++;
+				}
+				else 
+				{
+					btn3.setForeground(Color.BLUE);
+					b3=0;
+					i++;
+				}
+				choosePlayer();
+				winningGame();
+			}
+		});
+		btn3.setFont(new Font("Tahoma", Font.BOLD, 80));
+		panel_3.add(btn3, BorderLayout.CENTER);
+		
+		JPanel panel_4 = new JPanel();
+		panel_4.setBorder(new LineBorder(new Color(0, 0, 0), 2));
+		panel.add(panel_4);
+		panel_4.setLayout(new BorderLayout(0, 0));
+		
+		JLabel lblNewLabel = new JLabel("Player X");
+		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 25));
+		panel_4.add(lblNewLabel, BorderLayout.CENTER);
+		
+		JPanel panel_5 = new JPanel();
+		panel_5.setBorder(new LineBorder(new Color(0, 0, 0), 2));
+		panel.add(panel_5);
+		panel_5.setLayout(new BorderLayout(0, 0));
+		
+		xCount = new JTextField();
+		xCount.setFont(new Font("Tahoma", Font.BOLD, 40));
+		xCount.setHorizontalAlignment(SwingConstants.CENTER);
+		xCount.setText("0");
+		panel_5.add(xCount, BorderLayout.CENTER);
+		xCount.setColumns(10);
+		
+		JPanel panel_7 = new JPanel();
+		panel_7.setBorder(new LineBorder(new Color(0, 0, 0), 2));
+		panel.add(panel_7);
+		panel_7.setLayout(new BorderLayout(0, 0));
+		
+		JButton btn4 = new JButton("");
+		btn4.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				btn4.setText(startGame);
+				if(startGame.equalsIgnoreCase("X"))
+				{
+					btn4.setForeground(Color.RED);
+					b4=1;
+					i++;
+				}
+				else 
+				{
+					btn4.setForeground(Color.BLUE);
+					b4=0;
+					i++;
+				}
+				choosePlayer();
+				winningGame();
+			}
+		});
+		btn4.setFont(new Font("Tahoma", Font.BOLD, 80));
+		panel_7.add(btn4, BorderLayout.CENTER);
+		
+		JPanel panel_8 = new JPanel();
+		panel_8.setBorder(new LineBorder(new Color(0, 0, 0), 2));
+		panel.add(panel_8);
+		panel_8.setLayout(new BorderLayout(0, 0));
+		
+		JButton btn5 = new JButton("");
+		btn5.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				btn5.setText(startGame);
+				if(startGame.equalsIgnoreCase("X"))
+				{
+					btn5.setForeground(Color.RED);
+					b5=1;
+					i++;
+				}
+				else 
+				{
+					btn5.setForeground(Color.BLUE);
+					b5=0;
+					i++;
+				}
+				choosePlayer();
+				winningGame();
+			}
+		});
+		btn5.setFont(new Font("Tahoma", Font.BOLD, 80));
+		panel_8.add(btn5, BorderLayout.CENTER);
+		
+		JPanel panel_6 = new JPanel();
+		panel_6.setBorder(new LineBorder(new Color(0, 0, 0), 2));
+		panel.add(panel_6);
+		panel_6.setLayout(new BorderLayout(0, 0));
+		
+		JButton btn6 = new JButton("");
+		btn6.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				btn6.setText(startGame);
+				if(startGame.equalsIgnoreCase("X"))
+				{
+					btn6.setForeground(Color.RED);
+					b6=1;
+					i++;
+				}
+				else 
+				{
+					btn6.setForeground(Color.BLUE);
+					b6=0;
+					i++;
+				}
+				choosePlayer();
+				winningGame();
+			}
+		});
+		btn6.setFont(new Font("Tahoma", Font.BOLD, 80));
+		panel_6.add(btn6, BorderLayout.CENTER);
+		
+		JPanel panel_9 = new JPanel();
+		panel_9.setBorder(new LineBorder(new Color(0, 0, 0), 2));
+		panel.add(panel_9);
+		panel_9.setLayout(new BorderLayout(0, 0));
+		
+		JLabel lblNewLabel_1 = new JLabel("Player O");
+		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 25));
+		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
+		panel_9.add(lblNewLabel_1, BorderLayout.CENTER);
+		
+		JPanel panel_10 = new JPanel();
+		panel_10.setBorder(new LineBorder(new Color(0, 0, 0), 2));
+		panel.add(panel_10);
+		panel_10.setLayout(new BorderLayout(0, 0));
+		
+		oCount = new JTextField();
+		oCount.setText("0");
+		oCount.setHorizontalAlignment(SwingConstants.CENTER);
+		oCount.setFont(new Font("Tahoma", Font.BOLD, 40));
+		panel_10.add(oCount, BorderLayout.CENTER);
+		oCount.setColumns(10);
+		
+		JPanel panel_11 = new JPanel();
+		panel_11.setBorder(new LineBorder(new Color(0, 0, 0), 2));
+		panel.add(panel_11);
+		panel_11.setLayout(new BorderLayout(0, 0));
+		
+		JButton btn7 = new JButton("");
+		btn7.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				btn7.setText(startGame);
+				if(startGame.equalsIgnoreCase("X"))
+				{
+					btn7.setForeground(Color.RED);
+					b7=1;
+					i++;
+				}
+				else 
+				{
+					btn7.setForeground(Color.BLUE);
+					b7=0;
+					i++;
+				}
+				choosePlayer();
+				winningGame();
+			}
+		});
+		btn7.setFont(new Font("Tahoma", Font.BOLD, 80));
+		panel_11.add(btn7, BorderLayout.CENTER);
+		
+		JPanel panel_12 = new JPanel();
+		panel_12.setBorder(new LineBorder(new Color(0, 0, 0), 2));
+		panel.add(panel_12);
+		panel_12.setLayout(new BorderLayout(0, 0));
+		
+		JButton btn8 = new JButton("");
+		btn8.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				btn8.setText(startGame);
+				if(startGame.equalsIgnoreCase("X"))
+				{
+					btn8.setForeground(Color.RED);
+					b8=1;
+					i++;
+				}
+				else 
+				{
+					btn8.setForeground(Color.BLUE);
+					b8=0;
+					i++;
+				}
+				choosePlayer();
+				winningGame();
+			}
+		});
+		btn8.setFont(new Font("Tahoma", Font.BOLD, 80));
+		panel_12.add(btn8, BorderLayout.CENTER);
+		
+		JPanel panel_13 = new JPanel();
+		panel_13.setBorder(new LineBorder(new Color(0, 0, 0), 2));
+		panel.add(panel_13);
+		panel_13.setLayout(new BorderLayout(0, 0));
+		
+		JButton btn9 = new JButton("");
+		btn9.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				btn9.setText(startGame);
+				if(startGame.equalsIgnoreCase("X"))
+				{
+					btn9.setForeground(Color.RED);
+					b9=1;
+					i++;
+				}
+				else 
+				{
+					btn9.setForeground(Color.BLUE);
+					b9=0;
+					i++;
+				}
+				choosePlayer();
+				winningGame();
+			}
+		});
+		btn9.setFont(new Font("Tahoma", Font.BOLD, 80));
+		panel_13.add(btn9, BorderLayout.CENTER);
+		
+		JPanel panel_14 = new JPanel();
+		panel_14.setBorder(new LineBorder(new Color(0, 0, 0), 2));
+		panel.add(panel_14);
+		panel_14.setLayout(new BorderLayout(0, 0));
+		
+		JButton btnReset = new JButton("RESET");
+		btnReset.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				btn1.setText(null);
+				btn2.setText(null);
+				btn3.setText(null);
+				btn4.setText(null);
+				btn5.setText(null);
+				btn6.setText(null);
+				btn7.setText(null);
+				btn8.setText(null);
+				btn9.setText(null);
+				b1=10;
+				b2=10;
+				b3=10;
+				b4=10;
+				b5=10;
+				b6=10;
+				b7=10;
+				b8=10;
+				b9=10;
+				i=0;
+			}
+		});
+		btnReset.setFont(new Font("Tahoma", Font.BOLD, 22));
+		panel_14.add(btnReset, BorderLayout.CENTER);
+		
+		JPanel panel_15 = new JPanel();
+		panel_15.setBorder(new LineBorder(new Color(0, 0, 0), 2));
+		panel.add(panel_15);
+		panel_15.setLayout(new BorderLayout(0, 0));
+		
+		JButton btnExit = new JButton("EXIT");
+		btnExit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
 				
-				// TODO: check which player has won and update the currentstate to the appropriate gamestate for the winner
-
-				
-			} else 
-				if (board.isDraw ()) {
+				frame = new JFrame("Exit");
+				if(JOptionPane.showConfirmDialog(frame, "Confirm You Want To Exit","Tic Tac Toe",JOptionPane.YES_NO_OPTION)==JOptionPane.YES_NO_OPTION)
+				{
+					System.exit(0);
 					
-					
-				// TODO: set the currentstate to the draw gamestate
-					currentState = GameState.Draw;
+				}
 				
 			}
-			//otherwise no change to current state of playing
-		}
-		
-				
-	
-		/** Event handler for the mouse click on the JPanel. If selected cell is valid and Empty then current player is added to cell content.
-		 *  UpdateGame is called which will call the methods to check for winner or Draw. if none then GameState remains playing.
-		 *  If win or Draw then call is made to method that resets the game board.  Finally a call is made to refresh the canvas so that new symbol appears*/
-	
-	public void mouseClicked(MouseEvent e) {  
-	    // get the coordinates of where the click event happened            
-		int mouseX = e.getX();             
-		int mouseY = e.getY();             
-		// Get the row and column clicked             
-		int rowSelected = mouseY / CELL_SIZE;             
-		int colSelected = mouseX / CELL_SIZE;               			
-		if (currentState == GameState.Playing) {                
-			if (rowSelected >= 0 && rowSelected < ROWS && colSelected >= 0 && colSelected < COLS && board.cells[rowSelected][colSelected].content == Player.Empty) {
-				// move  
-				board.cells[rowSelected][colSelected].content = currentPlayer; 
-				// update currentState                  
-				updateGame(currentPlayer, rowSelected, colSelected); 
-				// Switch player
-				if (currentPlayer == Player.Cross) {
-					currentPlayer =  Player.Nought;
-				}
-				else {
-					currentPlayer = Player.Cross;
-				}
-			}             
-		} else {        
-			// game over and restart              
-			initGame();            
-		}   
-		
-		//TODO: redraw the graphics on the UI          
-           
-	}
-		
-	
-	@Override
-	public void mousePressed(MouseEvent e) {
-		//  Auto-generated, event not used
-		
-	}
-	@Override
-	public void mouseReleased(MouseEvent e) {
-		//  Auto-generated, event not used
-		
-	}
-	@Override
-	public void mouseEntered(MouseEvent e) {
-		// Auto-generated,event not used
-		
-	}
-	@Override
-	public void mouseExited(MouseEvent e) {
-		// Auto-generated, event not used
-		
+		});
+		btnExit.setFont(new Font("Tahoma", Font.BOLD, 24));
+		panel_15.add(btnExit, BorderLayout.CENTER);
 	}
 
 }
